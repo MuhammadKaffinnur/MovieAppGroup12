@@ -1,38 +1,55 @@
-// src/screens/Home.tsx
+import React from "react";
+import { ScrollView, StyleSheet, StatusBar, View } from "react-native";
+import type { MovieListProps } from "../types/app";
+import MovieList from "../components/movies/MovieList";
 
-import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+const movieLists: MovieListProps[] = [
+  {
+    title: "Now Playing in Theater",
+    path: "movie/now_playing?language=en-US&page=1",
+    coverType: "backdrop",
+  },
+  {
+    title: "Upcoming Movies",
+    path: "movie/upcoming?language=en-US&page=1",
+    coverType: "poster",
+  },
+  {
+    title: "Top Rated Movies",
+    path: "movie/top_rated?language=en-US&page=1",
+    coverType: "poster",
+  },
+  {
+    title: "Popular Movies",
+    path: "movie/popular?language=en-US&page=1",
+    coverType: "poster",
+  },
+];
 
-const Home = ({ navigation }: any): JSX.Element => {
+const Home = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Go to Movie Detail"
-          onPress={() => navigation.navigate('MovieDetail')}
-          color="#007BFF"
-        />
+    <ScrollView>
+      <View style={styles.container}>
+        {movieLists.map((movie) => (
+          <MovieList
+            title={movie.title}
+            path={movie.path}
+            coverType={movie.coverType}
+            key={movie.title}
+          />
+        ))}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
+export default Home;
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-  buttonContainer: {
-    width: '80%',
-    borderRadius: 8,
-    overflow: 'hidden',
+    marginTop: StatusBar.currentHeight ?? 32,
+    alignItems: "center",
+    justifyContent: "center",
+    rowGap: 16,
   },
 });
-
-export default Home;
